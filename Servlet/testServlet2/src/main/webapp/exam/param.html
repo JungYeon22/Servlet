@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	form {text-align: center;}
+	input {padding: 10px; margin:10px;}
+	#nameCheck, #ageCheck{ font-size: 8pt; color: red;}
+</style>
+</head>
+<body>
+	<form name="inputForm" action="http://localhost:8080/testServlet2/param" method="get" style="display: inline-block;">
+		<fieldset>
+			<div>
+				<label>이름</label>
+				<input type="text" name="name">
+				<div id="nameCheck"></div>
+			</div>
+			<div>
+			 	<label>나이</label>
+				<input type="text" name="age">
+				<div id="ageCheck"></div>
+			</div>
+			<div>
+				<input type="button" value="SEND" onclick="javascript:inputCheck()">
+				<input type="reset" value="RESET">
+			</div>
+			
+		</fieldset>
+	</form>
+	<script>
+		function inputCheck(){
+			if(document.inputForm.name.value == ""){
+				document.getElementById("nameCheck").innerHTML = "이름 입력"
+			}
+			else if(document.inputForm.age.value == ""){
+				document.getElementById("ageCheck").innerHTML = "나이 입력"
+			}
+			else document.inputForm.submit();
+		}
+	</script>
+ 
+</body>
+</html>
