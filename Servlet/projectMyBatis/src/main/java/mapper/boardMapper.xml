@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardSQL">
+  	<insert id="insertBoard" parameterType="map">
+  		insert into board(seq, id, name, email, subject, content, ref) 
+  		values (seq_board.nextval, #{id}, #{name}, #{email}, #{subject}, #{content}, seq_board.nextval)
+  	</insert>
+  	
+  	<select id="boardList" parameterType="map" resultType="board">
+  		select * from (  select rownum rn, tt.*
+				        from (select * from board 
+				        order by ref desc, step)tt
+				     )
+				<![CDATA[ where  rn >= #{startNum} and rn <= #{endNum} ]]>
+				
+  	</select> 
+  	
+  	<select id="getTotalA" resultType="int">
+  		select count(*) from board
+  	</select>
+  </mapper>
