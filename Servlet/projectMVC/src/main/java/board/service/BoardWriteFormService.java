@@ -11,6 +11,7 @@ public class BoardWriteFormService implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse reponse) throws Throwable {
 		
+		
 		return "/board/boardWriteForm.jsp";
 	}
 
