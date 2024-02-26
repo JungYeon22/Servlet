@@ -11,18 +11,21 @@
 <style>
 	#pagingDiv {	
 				text-align:center;
-				width: 870px;
 				margin-top: 10px;
 				}
-	#pagingDiv a{text-decoration: none; padding:3px 10px; border-radius: 5px; }
+	#pagingDiv span{text-decoration: none; padding:3px 10px; border-radius: 5px; }
 	#currentPaging{background-color : #4CAF50; color:white;}	 
 	#paging:hover{background-color : #ddd; text-decoration:underline;}	
 	table {
 	  display: flex;
 	  align-items: center;
 	  justify-content: center;
-	  margin: 0;
+	  margin: 20px;
 	}
+	.subjectA:Link{color: black; text-decoration: none;}
+	.subjectA:visited{color: black; text-decoration: none;}
+	.subjectA:hover{color: #4CAF50; text-decoration: underline;}
+	.subjectA:active{color: black; text-decoration: none;}
 </style>
 </head>
 <body>
@@ -34,7 +37,9 @@
 		</h1>
 		<jsp:include page="../main/menu.jsp"></jsp:include>
 	</div>
-	<table border=1 cellpadding=7 frame="hsides" rules="rows">
+	<input type="hidden" id="pg" value="${pg }">
+	<input type="hidden" id="memId" value="${memId }">
+	<table border=1 cellpadding=7 frame="hsides" rules="rows" id="boardListTable">
 		<tr>
 			<th width="100">글번호</th>
 			<th width="300">제목</th>
@@ -43,40 +48,18 @@
 			<th width="100">조회수</th>
 		</tr>
 		
-<c:if test="${requestScope.list != null }">
-	<c:forEach var="boardDTO" items="${list }">
-		<tr>
-			<td align="center">${boardDTO.seq}</td>
-			<td>
-				<c:forEach var="i" begin="0" end="${boardDTO.lev }" step="1">
-					&emsp;
-				</c:forEach>
-				<c:if test="${boardDTO.pseq ne 0 }">
-					<img src="../image/reply.gif" alt="reply">
-				</c:if>
-				${boardDTO.subject }
-			</td>
-			<td align="center">${boardDTO.name }</td>
-			<td align="center">
-			<fmt:formatDate value="${boardDTO.logtime }" pattern="yyyy-MM-dd" type="date"/>
-			</td>
-			<td align="center">${boardDTO.hit }</td>
-		</tr>
-	</c:forEach>
-</c:if>	
+		<!-- 동적 처리 -->
 	</table> 
-	
-		<div id="pagingDiv">
-		<c:forEach var="i" begin="1" end="${totalP }" step="1">
-			<c:if test="${pg eq i }">
-				<a id="currentPaging" href="/projectMVC/board/boardList.do?pg=${i }">${i }</a>
-			</c:if>
-			<c:if test="${pg ne i }">
-				<a id="paging" href="/projectMVC/board/boardList.do?pg=${i }">${i }</a>
-			</c:if>
-		</c:forEach>
 		
+		<div id="pagingDiv">
 		</div>
-	
+		
+<script src="https://code.jQuery.com/jquery-3.7.1.min.js"></script>
+<script src="../js/boardList.js"></script>
+<script type="text/javascript">
+	function boardPaging(pg){
+		location.href="/projectMVC/board/boardList.do?pg="+pg
+	}
+</script>
 </body>
 </html>
