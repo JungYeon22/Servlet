@@ -29,10 +29,15 @@ public class GetBoardListService implements CommandProcess {
 		//페이징 처리 ( 페이지당 5페이지)
 		int endNum = pg * 5;
 		int startNum = endNum - 4;
-
+		
+		int startNum2 = startNum-1;
+		int count = endNum - startNum2;
+		
 		//DB에서 select로 가져오기
 		BoardDAO boardDAO = BoardDAO.getInstance();
 		Map<String, Integer> map =new HashMap<>();
+		map.put("startNum2", startNum2);
+		map.put("count", count);
 		map.put("startNum", startNum);
 		map.put("endNum", endNum);
 		

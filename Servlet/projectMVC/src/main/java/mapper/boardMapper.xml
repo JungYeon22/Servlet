@@ -4,17 +4,29 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardSQL">
   	<insert id="insertBoard" parameterType="map">
-  		insert into board(seq, id, name, email, subject, content, ref) 
-  		values (seq_board.nextval, #{id}, #{name}, #{email}, #{subject}, #{content}, seq_board.nextval)
+  		<selectKey resultType="int" keyProperty="ref" order="BEFORE">
+  			select MAX(seq)+1 from board
+  		</selectKey>
+  		insert into board(id, name, email, subject, content, ref) 
+  		values ( #{id}
+  				, #{name}
+  				, #{email}
+  				, #{subject}
+  				, #{content}
+  				, #{ref})
   	</insert>
   	
   	<select id="boardList" parameterType="map" resultType="board">
-  		select * from (  select rownum rn, tt.*
+  		<!-- select * from (  select rownum rn, tt.*
 				        from (select * from board 
 				        order by ref desc, step)tt
 				     )
-				<![CDATA[ where  rn >= #{startNum} and rn <= #{endNum} ]]>
-				
+		<![CDATA[ where  rn >= #{startNum} and rn <= #{endNum} ]]> -->
+		
+		select * from board order by ref desc, step asc
+		limit #{startNum2}, #{count}
+		
+		
   	</select> 
   	
   	<select id="getTotalA" resultType="int">
@@ -26,7 +38,7 @@
   		select * from board where seq=#{seq}
   	</select>
   	<update id="updateBoard" parameterType="map">
-  		update board set subject=#{subject}, content=#{content}, logtime=sysdate where seq=${seq}
+  		update board set subject=#{subject}, content=#{content}, logtime=now() where seq=${seq}
   	</update>
   	<!-- 답글 --> 
   	<!-- step(글순서) update -->
@@ -34,9 +46,9 @@
   		update board set step=step+1 where ref=${ref} and step>${step}
   	</update>
   	<insert id="boardReply" parameterType="map">
-  		insert into board(seq, id, name, email, subject, content, ref, lev, step, pseq) 
-  		values (seq_board.nextval
-  				, #{id}
+  		insert into board( id, name, email, subject, content, ref, lev, step, pseq) 
+  		values (
+  				#{id}
   				, #{name}
   				, #{email}
   				, #{subject}
@@ -55,7 +67,7 @@
   		update board set reply=reply-1 where seq=#{pseq}
   	</update>
   	<update id="deleteBoardChildrenSubject" parameterType="board">
-  		update board set subject='[원글이 삭제된 답글]'||subject where pseq=#{seq}
+  		update board set subject = concat('[원글이 삭제된 답글]', subject) where pseq=#{seq}
   	</update>
   	<delete id="deleteBoard" parameterType="board">
   		delete from board where seq=#{seq}

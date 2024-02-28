@@ -26,7 +26,7 @@
 					, #{zipcode}
 					, #{addr1}
 					, #{addr2}
-					, sysdate)
+					, now)
 	</insert>
 	
 	<select id="login" parameterType="map" resultType="member">
