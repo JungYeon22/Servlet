@@ -16,6 +16,7 @@ $(function(){
 		}
 	});
 })
+
  $('#boardUpdateBtn').click(function(){
     	   $('#checkSubject').empty();
     	   $('#checkContent').empty();

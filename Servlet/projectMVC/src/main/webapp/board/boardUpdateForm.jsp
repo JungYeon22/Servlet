@@ -53,7 +53,6 @@
 					<textarea name="content" id="content" cols="40" rows="8"></textarea>
 					<div id="checkContent"></div>
 				</td>
-				
 			</tr>
 			<tr>
 				<td colspan="2" align="center">

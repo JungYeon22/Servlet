@@ -15,6 +15,7 @@
 	  justify-content: center;
 	  margin-top: 30px;
 	}
+	pre {white-space: pre-wrap;}
 	.subjectA:Link{color: black; text-decoration: none;}
 	.subjectA:visited{color: black; text-decoration: none;}
 	.subjectA:hover{color: #4CAF50; text-decoration: underline;}
@@ -47,7 +48,7 @@
 			<td align="center" width="200">조회수 : <span id="hitSpan"></span></td>
 		</tr>
 		<tr>
-			<td colspan=3 height=300 valign="top"><span id="contentSpan"></span></td>
+			<td colspan=3 height=300 valign="top"><pre><span id="contentSpan"></span></pre></td>
 		</tr>
 		
 	</table> 

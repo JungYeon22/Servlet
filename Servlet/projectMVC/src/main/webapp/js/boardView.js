@@ -28,12 +28,15 @@ $(function(){
 //글 수정 - 수정한 페이지번호를 보여준다.
 $('#boardUpdateFormBtn').click(function(){
 		var pg = $('#pg').val();
-		location.href='/projectMVC/board/boardUpdateForm.do?pg='+pg+'&seq='+data.seq	
+		var seq = $('#seq').val();
+		location.href='/projectMVC/board/boardUpdateForm.do?pg='+pg+'&seq='+seq
 })
 // 글 삭제 - 삭제한 후에는 1페이지를 보여준다.
 $('#boardDeleteBtn').click(function(){
-	$('#boardViewForm').attr('action', '/projectMVC/board/boardDelete.do');
-	$('#boardViewForm').submit();	//seq, pg
+	if(confirm('정말 삭제하시겠습니까?')){
+		$('#boardViewForm').attr('action', '/projectMVC/board/boardDelete.do');
+		$('#boardViewForm').submit();	//seq, pg
+	}
 });
 
 // 답글 - 원글이 있는 페이지번호를 보여준다.
