@@ -1,3 +1,4 @@
+-- Oracle
 create table member( 
 name varchar2(30) not null,	-- 이름
 id varchar2(30) primary key, -- 기본키, unique, not null, 무결성 제약 조건 
@@ -13,7 +14,7 @@ addr1 varchar2(100),
 addr2 varchar2(100), 
 logtime date);
 
-
+-----------------------------------------------------------------
 -- MySQL 
 create table member( 
 name varchar(30) not null,	-- 이름

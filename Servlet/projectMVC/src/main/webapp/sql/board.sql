@@ -1,3 +1,4 @@
+-- Oracle
 [테이블]
 CREATE TABLE board(
      seq NUMBER NOT NULL,               -- 글번호 (시퀀스 객체 이용)
@@ -20,6 +21,8 @@ CREATE TABLE board(
 [시퀀스]
 CREATE SEQUENCE seq_board  NOCACHE NOCYCLE;
 
+
+---------------------------------------------------------------------
 
 [테이블] -- MySQL
 CREATE TABLE board(
@@ -47,6 +50,45 @@ CREATE TABLE board(
  logtime DATETIME default now()	-- 현재 날짜 & 시간
  
  
+ -- MySQL 게시판 생성 procedure
+ DELIMITER //
+create PROCEDURE boardWriteboard (in id_val varchar(20)
+							, in name_val varchar(20)
+                            , in email_val varchar(20)
+                            , in subject_val varchar(50)
+                            , in content_val varchar(300))
+begin
+	DECLARE ref_val INT;
+
+	SELECT AUTO_INCREMENT into ref_val
+	FROM information_schema.TABLES 
+	WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='board';
+    
+    insert into board(id, name, email, subject, content, ref) 
+  		values ( id_val
+  				, name_val
+  				, email_val
+  				, subject_val
+  				, content_val
+  				, ref_val);
+end //
+DELIMITER ;
+
+ 
+ 
+ -- MySQL 게시판 삭제 procedure
+ DELIMITER //
+create PROCEDURE boardDelete (in seq_value int)
+begin
+	update board set reply=reply-1 
+	where seq=(select p.pseq from (select pseq from board where seq=seq_value)as p);
+  			
+	update board set subject = concat('[원글이 삭제된 답글]', subject) where pseq=seq_value;
+  			
+	delete from board where seq=seq_value;
+end //
+DELIMITER ;
+
  
  
  

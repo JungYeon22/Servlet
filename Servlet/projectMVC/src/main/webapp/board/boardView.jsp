@@ -15,7 +15,7 @@
 	  justify-content: center;
 	  margin-top: 30px;
 	}
-	pre {white-space: pre-wrap;}
+
 	.subjectA:Link{color: black; text-decoration: none;}
 	.subjectA:visited{color: black; text-decoration: none;}
 	.subjectA:hover{color: #4CAF50; text-decoration: underline;}
@@ -31,7 +31,7 @@
 				onclick="location.href='/projectMVC/index.jsp'" style="cursor:pointer">
 			MVC를 활용한 미니 프로젝트
 		</h1>
-		<jsp:include page="../main/menu.jsp"></jsp:include>
+		<jsp:include page="../main/boardMenu.jsp"></jsp:include>
 	</div>
 <form id="boardViewForm">
 <div id="section">
@@ -48,7 +48,13 @@
 			<td align="center" width="200">조회수 : <span id="hitSpan"></span></td>
 		</tr>
 		<tr>
-			<td colspan=3 height=300 valign="top"><pre><span id="contentSpan"></span></pre></td>
+			<td colspan=3 height=300 valign="top">
+				<div style="width: 100%; height: 100%; overflow:auto;"><!-- 밑으로 긴 글일때 스크롤바가 생성 -->
+					<pre style="white-space: pre-line; word-break: break-all;">
+						<span id="contentSpan"></span>
+					</pre>
+				</div>
+			</td>
 		</tr>
 		
 	</table> 
