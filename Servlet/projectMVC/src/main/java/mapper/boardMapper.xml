@@ -3,30 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardSQL">
-  	<insert id="insertBoard" parameterType="map">
-  		<selectKey resultType="int" keyProperty="ref" order="BEFORE">
-  			select MAX(seq)+1 from board
-  		</selectKey>
-  		insert into board(id, name, email, subject, content, ref) 
-  		values ( #{id}
-  				, #{name}
-  				, #{email}
-  				, #{subject}
-  				, #{content}
-  				, #{ref})
-  	</insert>
   	
-  	<select id="boardList" parameterType="map" resultType="board">
-  		<!-- select * from (  select rownum rn, tt.*
-				        from (select * from board 
-				        order by ref desc, step)tt
-				     )
-		<![CDATA[ where  rn >= #{startNum} and rn <= #{endNum} ]]> -->
-		
+  	
+  	<!-- mysql -->
+  	<insert id="insertBoard" statementType="CALLABLE" parameterType="map">
+  		{ call boardWrite(#{id},#{name},#{email},#{subject},#{content}) }
+  	</insert>		
+  		
+  	<select id="boardList" parameterType="map" resultType="board">		
 		select * from board order by ref desc, step asc
-		limit #{startNum2}, #{count}
-		
-		
+		limit #{startNum2}, #{count}	
   	</select> 
   	
   	<select id="getTotalA" resultType="int">
@@ -40,6 +26,7 @@
   	<update id="updateBoard" parameterType="map">
   		update board set subject=#{subject}, content=#{content}, logtime=now() where seq=${seq}
   	</update>
+  	
   	<!-- 답글 --> 
   	<!-- step(글순서) update -->
   	<update id="boardReplyStep" parameterType="board">
@@ -62,15 +49,8 @@
   		update board set reply=reply+1 where seq=#{pseq}
   	</update>
   	
-  	<!-- 삭제 -->
-  	<update id="deleteBoardReply" parameterType="board">
-  		update board set reply=reply-1 where seq=#{pseq}
-  	</update>
-  	<update id="deleteBoardChildrenSubject" parameterType="board">
-  		update board set subject = concat('[원글이 삭제된 답글]', subject) where pseq=#{seq}
-  	</update>
-  	<delete id="deleteBoard" parameterType="board">
-  		delete from board where seq=#{seq}
+  	<delete id="boardDelete" statementType="CALLABLE" parameterType="int">
+  		{ call boardDelete(#{seq}) }
   	</delete>
   	
   </mapper>

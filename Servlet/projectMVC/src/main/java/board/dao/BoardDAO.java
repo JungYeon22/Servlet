@@ -94,16 +94,17 @@ public class BoardDAO {
 	public int deleteBoard(int seq) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		
-		BoardDTO boardDTO = this.getBoard(seq);	// 지우고자하는 게시글
-		// 원글 찾아서 reply 감소
-		sqlSession.update("boardSQL.deleteBoardReply", boardDTO);
+		/*
+		 * BoardDTO boardDTO = this.getBoard(seq); // 지우고자하는 게시글 // 원글 찾아서 reply 감소
+		 * sqlSession.update("boardSQL.deleteBoardReply", boardDTO);
+		 * 
+		 * // 답글을 찾아서 subject에 원글이 삭제되었다고 알리기
+		 * sqlSession.update("boardSQL.deleteBoardChildrenSubject", boardDTO);
+		 * 
+		 * //게시글 삭제 int su = sqlSession.delete("boardSQL.deleteBoard", boardDTO);
+		 */
 		
-		// 답글을 찾아서 subject에 원글이 삭제되었다고 알리기
-		sqlSession.update("boardSQL.deleteBoardChildrenSubject", boardDTO);
-		
-		//게시글 삭제
-		int su = sqlSession.delete("boardSQL.deleteBoard", boardDTO);
-	
+		int su = sqlSession.delete("boardSQL.boardDelete", seq);
 		sqlSession.commit();
 		sqlSession.close();
 		
